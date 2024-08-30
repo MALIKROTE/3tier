@@ -3,6 +3,7 @@ pipeline {
     environment {
         DOCKER_HUB_REPO = 'malikdrote'
         DOCKER_HUB_CREDENTIALS = 'docker-hub-credentials'
+        MINIKUBE_CERT_DIR = '/var/lib/jenkins/.minikube'
         KUBECONFIG = '/var/lib/jenkins/.kube/config'
     }
     stages {
@@ -26,6 +27,8 @@ pipeline {
         }
         stage('Deploy to Kubernetes') {
             steps {
+                withEnv(["KUBECONFIG=${env.MINIKUBE_CERT_DIR}/config"])
+                {
                 sh '''
                     # Print kubeconfig details for debugging
                     kubectl config view
@@ -38,7 +41,7 @@ pipeline {
                     kubectl apply -f k8s/mysql-deployment.yml
                     kubectl apply -f k8s/frontend-deployment.yml
                     kubectl apply -f k8s/backend-deployment.yml
-                    '''
+                }    '''
             }
         }
     }
