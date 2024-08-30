@@ -3,7 +3,7 @@ pipeline {
     environment {
         DOCKER_HUB_REPO = 'malikdrote'
         DOCKER_HUB_CREDENTIALS = 'docker-hub-credentials'
-        KUBECONFIG = '/home/malik/.kube/config'
+        KUBECONFIG = '/var/lib/jenkins/.kube/config'
     }
     stages {
         stage('Build Frontend') {
