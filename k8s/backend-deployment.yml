@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: backend
-        image: myorg/backend:latest
+        image: malikdrote/backend:latest
         env:
         - name: DB_HOST
           value: mysql

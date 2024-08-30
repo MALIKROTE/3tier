@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: frontend
-        image: myorg/frontend:latest
+        image: malikdrote/frontend:latest
         ports:
         - containerPort: 8080
 ---
