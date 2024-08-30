@@ -3,6 +3,7 @@ pipeline {
     environment {
         DOCKER_HUB_REPO = 'malikdrote'
         DOCKER_HUB_CREDENTIALS = 'docker-hub-credentials'
+        KUBECONFIG = '/home/malik/.kube/config'
     }
     stages {
         stage('Build Frontend') {
@@ -25,13 +26,19 @@ pipeline {
         }
         stage('Deploy to Kubernetes') {
             steps {
-                // Set kubectl to use Minikube's context
-            sh 'kubectl config use-context minikube'
+                sh '''
+                    # Print kubeconfig details for debugging
+                    kubectl config view
+                    kubectl config get-contexts
 
-            // Deploy the mysql database, frontend, and backend using the Kubernetes YAML files
-            sh 'kubectl apply -f k8s/mysql-deployment.yml'
-            sh 'kubectl apply -f k8s/frontend-deployment.yml'
-            sh 'kubectl apply -f k8s/backend-deployment.yml'
+                    # Switch to Minikube context
+                    kubectl config use-context minikube
+
+                    # Deploy Kubernetes resources
+                    kubectl apply -f k8s/mysql-deployment.yml
+                    kubectl apply -f k8s/frontend-deployment.yml
+                    kubectl apply -f k8s/backend-deployment.yml
+                    '''
             }
         }
     }
