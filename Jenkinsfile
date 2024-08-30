@@ -25,7 +25,13 @@ pipeline {
         }
         stage('Deploy to Kubernetes') {
             steps {
-                kubernetesDeploy(configs: 'k8s/*.yml', kubeconfigId: 'kubeconfig')
+                // Set kubectl to use Minikube's context
+            sh 'kubectl config use-context minikube'
+
+            // Deploy the mysql database, frontend, and backend using the Kubernetes YAML files
+            sh 'kubectl apply -f k8s/mysql-deployment.yml'
+            sh 'kubectl apply -f k8s/frontend-deployment.yml'
+            sh 'kubectl apply -f k8s/backend-deployment.yml
             }
         }
     }
