@@ -31,7 +31,7 @@ pipeline {
             // Deploy the mysql database, frontend, and backend using the Kubernetes YAML files
             sh 'kubectl apply -f k8s/mysql-deployment.yml'
             sh 'kubectl apply -f k8s/frontend-deployment.yml'
-            sh 'kubectl apply -f k8s/backend-deployment.yml
+            sh 'kubectl apply -f k8s/backend-deployment.yml'
             }
         }
     }
