@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment {
-        DOCKER_HUB_REPO = 'myorg'
+        DOCKER_HUB_REPO = 'malikdrote'
         DOCKER_HUB_CREDENTIALS = 'docker-hub-credentials'
     }
     stages {
