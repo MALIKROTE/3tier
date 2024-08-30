@@ -28,10 +28,6 @@ pipeline {
             steps {
                 withEnv(["KUBECONFIG=${env.KUBECONFIG}"]) {
                     sh '''
-                        # Print kubeconfig details for debugging
-                        kubectl config view
-                        kubectl config get-contexts
-
                         # Switch to Minikube context
                         kubectl config use-context minikube
 
