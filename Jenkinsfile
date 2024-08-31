@@ -10,7 +10,7 @@ pipeline {
         stage('Install Minikube and Dependencies') {
             steps {
                 script {
-                    # Install Minikube
+                   
                     sh '''
                         curl -Lo minikube https://storage.googleapis.com/minikube/releases/${MINIKUBE_VERSION}/minikube-linux-amd64
                         chmod +x minikube
@@ -28,7 +28,7 @@ pipeline {
             steps {
                 script {
                     sh '''
-                        # Start Minikube with Docker driver
+                        
                         minikube start --driver=docker
                     '''
                 }
@@ -69,7 +69,7 @@ pipeline {
             steps {
                 script {
                     sh '''
-                        # Stop and delete Minikube (optional)
+                        
                         minikube stop
                         minikube delete
                     '''
@@ -79,7 +79,7 @@ pipeline {
     }
     post {
         always {
-            # Clean up workspace
+            
             deleteDir()
         }
     }
