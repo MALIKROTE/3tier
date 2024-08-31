@@ -56,6 +56,7 @@ pipeline {
                         kubectl apply -f k8s/backend-deployment.yml
                         kubectl apply -f k8s/frontend-service.yml
                         kubectl apply -f k8s/backend-service.yml
+                        kubectl apply -f k8s/mysql-service.yml
 
                         # Wait for the deployments to be ready
                         kubectl rollout status deployment/frontend
