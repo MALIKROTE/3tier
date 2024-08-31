@@ -62,10 +62,6 @@ pipeline {
                         kubectl rollout status deployment/frontend
                         kubectl rollout status deployment/backend
 
-                        # Expose services
-                        kubectl expose deployment frontend --type=NodePort --name=frontend-service
-                        kubectl expose deployment backend --type=NodePort --name=backend-service
-
                         # Wait for services to be available
                         kubectl get services
                     '''
