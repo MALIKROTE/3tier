@@ -10,12 +10,10 @@ pipeline {
         stage('Install Minikube and Dependencies') {
             steps {
                 script {
-                   
                     sh '''
                         curl -Lo minikube https://storage.googleapis.com/minikube/releases/${MINIKUBE_VERSION}/minikube-linux-amd64
                         chmod +x minikube
                         sudo mv minikube /usr/local/bin/
-
                         
                         curl -Lo kubectl https://storage.googleapis.com/kubernetes-release/release/${KUBECTL_VERSION}/bin/linux/amd64/kubectl
                         chmod +x kubectl
@@ -28,7 +26,6 @@ pipeline {
             steps {
                 script {
                     sh '''
-                        
                         minikube start --driver=docker
                     '''
                 }
@@ -61,26 +58,29 @@ pipeline {
                         # Wait for the deployments to be ready
                         kubectl rollout status deployment/frontend
                         kubectl rollout status deployment/backend
+
+                        # Expose services
+                        kubectl expose deployment frontend --type=NodePort --name=frontend-service
+                        kubectl expose deployment backend --type=NodePort --name=backend-service
+
+                        # Wait for services to be available
+                        kubectl get services
                     '''
                 }
             }
         }
-        stage('Cleanup') {
+        stage('Access Application') {
             steps {
                 script {
-                    sh '''
-                        
-                        minikube stop
-                        minikube delete
-                    '''
+                    
+                    def minikubeIp = sh(script: 'minikube ip', returnStdout: true).trim()
+                    def frontendPort = sh(script: 'kubectl get service frontend-service -o jsonpath="{.spec.ports[0].nodePort}"', returnStdout: true).trim()
+                    def backendPort = sh(script: 'kubectl get service backend-service -o jsonpath="{.spec.ports[0].nodePort}"', returnStdout: true).trim()
+                    
+                    echo "Frontend URL: http://${minikubeIp}:${frontendPort}"
+                    echo "Backend URL: http://${minikubeIp}:${backendPort}"
                 }
             }
-        }
-    }
-    post {
-        always {
-            
-            deleteDir()
         }
     }
 }
