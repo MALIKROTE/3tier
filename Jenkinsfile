@@ -10,7 +10,7 @@ pipeline {
         stage('Install Minikube and Dependencies') {
             steps {
                 script {
-                    // Install Minikube
+                    # Install Minikube
                     sh '''
                         curl -Lo minikube https://storage.googleapis.com/minikube/releases/${MINIKUBE_VERSION}/minikube-linux-amd64
                         chmod +x minikube
@@ -79,7 +79,7 @@ pipeline {
     }
     post {
         always {
-            // Clean up workspace
+            # Clean up workspace
             deleteDir()
         }
     }
