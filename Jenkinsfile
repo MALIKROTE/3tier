@@ -59,8 +59,8 @@ pipeline {
                         kubectl apply -f k8s/backend-deployment.yml
 
                         # Wait for the deployments to be ready
-                        kubectl rollout status deployment/frontend-deployment
-                        kubectl rollout status deployment/backend-deployment
+                        kubectl rollout status deployment/frontend
+                        kubectl rollout status deployment/backend
                     '''
                 }
             }
